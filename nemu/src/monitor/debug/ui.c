@@ -38,6 +38,91 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args) {
+        char *arg = strtok(NULL, " ");
+        int num = 0;
+        if(arg == NULL) num = 1;
+        else num = atoi(arg);
+        cpu_exec(num);
+        return 0;
+}
+
+static int cmd_info(char *args){
+        char *arg = strtok(NULL, " ");
+        if(strcmp(arg, "r") == 0)
+        {
+                printf("eax is %x\n",cpu.eax);
+                printf("ecx is %x\n",cpu.ecx);
+                printf("ebx is %x\n",cpu.ebx);
+                printf("edx is %x\n",cpu.edx);
+                printf("esp is %x\n",cpu.esp);
+                printf("edi is %x\n",cpu.edi);
+                printf("esi is %x\n",cpu.esi); 
+        }
+        else if(strcmp(arg, "w") == 0)
+        {
+                info_wp();
+        }
+        else    printf("Input is wrong, try info r");
+        return 0;
+}
+
+static int cmd_p(char *args) {
+        uint32_t num;
+        bool success;
+        num = expr(args, &success);
+        if(success)
+                printf("%d\n", num);
+        return 0;
+}
+
+static int cmd_x(char *args) {
+        if(args == NULL)   printf("Input is wrong, try like x 10 0x100000");
+        else
+        {
+                int num = atoi(strtok(NULL, " "));
+                
+                char *arg = strtok(NULL, " ");
+                //bool success = true;
+                char *str;
+                swaddr_t start_addr = strtol(arg, &str, 16);   
+                int i; 
+                for(i = 0; i < num; i++)
+                {
+                        //printf("0x%08x ", start_addr);
+                        printf("0x%08x ", swaddr_read(start_addr, 4));
+                        start_addr += 4;  
+                        printf("\n");
+                }     
+        }
+        return 0;
+}
+
+static int cmd_w(char *args) {
+        if(args == NULL)   printf("Input is wrong, try like w 7-2");
+        else {
+                WP *new;
+                bool success;
+                new = new_wp();
+                new->val = expr(args, &success);
+                strcpy(new->expr, args);
+                if(!success) assert(0);
+                printf("Watchpoint %d: %s\n", new->NO, args);
+                printf("Value : %d\n", new->val);
+        }         
+        return 0;
+}
+
+static int cmd_d(char *args) {
+        if(args == NULL)   printf("Input is wrong, try like d 1");
+        else {
+                int num;
+                sscanf(args, "%d", &num);
+                delete_wp(num);
+        }
+        return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -46,7 +131,12 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-
+        { "si", "To make N times implementations, if N is not given, it will make 1 time", cmd_si },
+        {"info", "Print register state", cmd_info},
+        {"x", "Scane memory", cmd_x},
+        {"p", "Expression evaluation", cmd_p},
+        {"w", "monitoring point", cmd_w},
+        {"d", "delete monitoring point", cmd_d},
 	/* TODO: Add more commands */
 
 };
