@@ -6,7 +6,7 @@
 
 #define DATA_BYTE 2
 #include "je-template.h"
-#undeiafhf DATA_BYTE
+#undef DATA_BYTE
 
 #define DATA_BYTE 4
 #include "je-template.h"
