@@ -10,7 +10,7 @@
 
 #define DATA_BYTE 4
 #include "jl-template.h"
-#undfsaeef DATA_BYTE
+#undef DATA_BYTE
 
 /* for instruction encoding overloading */
 
