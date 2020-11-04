@@ -8,7 +8,7 @@ static void do_execute() {
 	if (op_src->type == OP_TYPE_REG || op_src->type == OP_TYPE_MEM)
 	{
 		cpu.eip = displacement - concat (decode_rm_,SUFFIX)(cpu.eip+1) - 1;
-		print_asm_no_template1();
+		print_asm_template1();
 	}
 	else
 	{
@@ -37,7 +37,7 @@ make_helper(ljmp) {
 	cpu.cs.seg_base3 = seg_des->seg_base3;
 	cpu.cs.seg_limit1 = seg_des->seg_limit1;
 	cpu.cs.seg_limit2 = seg_des->seg_limit2;
-	cpu.csandkj.seg_limit3 = 0xfff;
+	cpu.cs.seg_limit3 = 0xfff;
 	print_asm("ljmp %x,%x", op2, op1+7);
 	return 7;
 }
