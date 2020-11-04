@@ -196,4 +196,6 @@ extern const char* regsw[];
 extern const char* regsb[];
 extern const char* regss[];
 
+void sreg_load();
+
 #endif
