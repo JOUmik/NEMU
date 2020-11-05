@@ -20,17 +20,17 @@ static make_helper(_2byte_esc);
 /* 0x80 */
 make_group(group1_b,
 	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, inv, inv, cmp_i2rm_b)
 
 /* 0x81 */
 make_group(group1_v,
 	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, inv, inv, cmp_i2rm_v)
 
 /* 0x83 */
 make_group(group1_sx_v,
 	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, inv, inv, cmp_si2rm_v)
 
 /* 0xc0 */
 make_group(group2_i_b,
@@ -64,13 +64,13 @@ make_group(group2_cl_v,
 
 /* 0xf6 */
 make_group(group3_b,
-	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	test_i2rm_b, inv, not_rm_b, neg_rm_b, 
+	mul_rm_b, imul_rm2a_b, div_rm_b, idiv_rm_b)
 
 /* 0xf7 */
 make_group(group3_v,
-	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	test_i2rm_v, inv, not_rm_v, neg_rm_v, 
+	mul_rm_v, imul_rm2a_v, div_rm_v, idiv_rm_v)
 
 /* 0xfe */
 make_group(group4,
@@ -79,8 +79,8 @@ make_group(group4,
 
 /* 0xff */
 make_group(group5,
-	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, inv, call_rm_v, call_rm_v, 
+	jmp_rm_v, inv, push_rm_v, inv)
 
 make_group(group6,
 	inv, inv, inv, inv, 
