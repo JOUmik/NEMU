@@ -27,6 +27,8 @@
 #include "data-mov/push.h"
 #include "data-mov/pop.h"
 
+#include "arith/adc.h"
+#include "arith/add.h"
 #include "arith/cmp.h"
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -35,18 +37,29 @@
 #include "arith/mul.h"
 #include "arith/idiv.h"
 #include "arith/div.h"
+#include "arith/sbb.h"
+#include "arith/sub.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
 #include "logic/not.h"
 #include "logic/xor.h"
 #include "logic/sar.h"
+#include "logic/setb.h"
+#include "logic/setne.h"
+#include "logic/seto.h"
+#include "logic/setp.h"
+#include "logic/sets.h"
 #include "logic/shl.h"
 #include "logic/shr.h"
 #include "logic/shrd.h"
 #include "logic/test.h"
 
+#include "string/lods.h"
+#include "string/movs.h"
 #include "string/rep.h"
+#include "string/scas.h"
+#include "string/stos.h"
 
 #include "misc/misc.h"
 
