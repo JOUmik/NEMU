@@ -22,6 +22,12 @@
 #include "con-trans/other.h"
 #include "con-trans/ret.h"
 
+#include "data-mov/cltd.h"
+#include "data-mov/leave.h"
+#include "data-mov/movext.h"
+#include "data-mov/movsx.h"
+#include "data-mov/movzb.h"
+#include "data-mov/movzw.h"
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/push.h"
