@@ -60,7 +60,7 @@ make_group(group2_cl_b,
 /* 0xd3 */
 make_group(group2_cl_v,
 	inv, inv, inv, inv, 
-	shl_rm_cl_v, shl_rm_cl_v, inv, sar_rm_cl_v)
+	shl_rm_cl_v, shr_rm_cl_v, inv, sar_rm_cl_v)
 
 /* 0xf6 */
 make_group(group3_b,
@@ -98,16 +98,16 @@ helper_fun opcode_table [256] = {
 /* 0x04 */	add_i2a_b, add_i2a_v, inv, inv,
 /* 0x08 */	or_r2rm_b, or_r2rm_v, or_rm2r_b, or_rm2r_v,
 /* 0x0c */	or_i2a_b, or_i2a_v, inv, _2byte_esc,
-/* 0x10 */	inv, adc_r2rm_v, inv, inv,
-/* 0x14 */	inv, inv, inv, inv,
+/* 0x10 */	adc_r2rm_b, adc_r2rm_v, adc_rm2r_b, adc_rm2r_v,
+/* 0x14 */	adc_i2a_b, adc_i2a_v, inv, inv,
 /* 0x18 */	sbb_r2rm_b, sbb_r2rm_v, sbb_rm2r_b, sbb_rm2r_v,
 /* 0x1c */	sbb_i2a_b, sbb_i2a_v, inv, inv,
 /* 0x20 */	and_r2rm_b, and_r2rm_v, and_rm2r_b, and_rm2r_v,
 /* 0x24 */	and_i2a_b, and_i2a_v, inv, inv,
 /* 0x28 */	sub_r2rm_b, sub_r2rm_v, sub_rm2r_b, sub_rm2r_v,
 /* 0x2c */	sub_i2a_b, sub_i2a_v, inv, inv,
-/* 0x30 */	xor_r2rm_b, xor_r2rm_v, inv, inv,
-/* 0x34 */	inv, inv, inv, inv,
+/* 0x30 */	xor_r2rm_b, xor_r2rm_v, xor_rm2r_b, xor_rm2r_v,
+/* 0x34 */	xor_i2a_b, xor_i2a_v, inv, inv,
 /* 0x38 */	cmp_r2rm_b, cmp_r2rm_v, cmp_r2rm_b, cmp_rm2r_v,
 /* 0x3c */	cmp_i2a_b, cmp_i2a_v, inv, inv,
 /* 0x40 */	inc_r_v, inc_r_v, inc_r_v, inc_r_v,
@@ -127,7 +127,7 @@ helper_fun opcode_table [256] = {
 /* 0x78 */	js_i_b, jns_i_b, jp_i_b, jnp_i_b,
 /* 0x7c */	jl_i_b, jge_i_b, jle_i_b, jg_i_b,
 /* 0x80 */	group1_b, group1_v, inv, group1_sx_v, 
-/* 0x84 */	test_r2rm_b, test_r2rm_v, inv, inv,
+/* 0x84 */	test_r2rm_b, test_r2rm_v, xchg_r2rm_b, xchg_r2rm_v,
 /* 0x88 */	mov_r2rm_b, mov_r2rm_v, mov_rm2r_b, mov_rm2r_v,
 /* 0x8c */	inv, lea, inv, pop_rm_v,
 /* 0x90 */	xchg_a2r_v, xchg_a2r_v, xchg_a2r_v, xchg_a2r_v,
@@ -154,7 +154,7 @@ helper_fun opcode_table [256] = {
 /* 0xe4 */	inv, inv, inv, inv,
 /* 0xe8 */  call_i_v, jmp_i_v, ljmp, jmp_i_b,
 /* 0xec */	inv, inv, inv, inv,
-/* 0xf0 */	inv, inv, inv, inv,
+/* 0xf0 */	inv, inv, repnz, rep,
 /* 0xf4 */	inv, inv, group3_b, group3_v,
 /* 0xf8 */	inv, inv, inv, inv,
 /* 0xfc */	inv, inv, group4, group5
