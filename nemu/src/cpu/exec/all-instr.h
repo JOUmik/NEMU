@@ -46,6 +46,7 @@
 #include "logic/xor.h"
 #include "logic/sar.h"
 #include "logic/setb.h"
+#include "logic/sete.h"
 #include "logic/setne.h"
 #include "logic/seto.h"
 #include "logic/setp.h"
