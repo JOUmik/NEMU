@@ -80,7 +80,6 @@ void load_elf_tables(int argc, char *argv[]) {
 
 	fclose(fp);
 }
-
 uint32_t GetMarkValue(char* str,bool* success){
 	int i;
 	for (i = 0; i < nr_symtab_entry; i++){
@@ -111,4 +110,3 @@ void GetFunctionAddr(swaddr_t cur_addr,char* name){
 	}
 	name[0]='\0';
 }
-
