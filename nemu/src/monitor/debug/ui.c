@@ -68,12 +68,12 @@ static int cmd_info(char *args){
 }
 
 static int cmd_p(char *args) {
-        uint32_t num;
-        bool success;
-        num = expr(args, &success);
-        if(success)
-                printf("%d\n", num);
-        return 0;
+	uint32_t num;
+	bool success;
+	num = expr(args, &success); 
+	if(success)
+		printf("%d\n", num);
+	return 0;
 }
 
 static int cmd_x(char *args) {
