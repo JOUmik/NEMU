@@ -65,4 +65,3 @@ init_ide(void) {
 	add_irq_handle(0, ide_writeback);
 	add_irq_handle(14, ide_intr);
 }
-
