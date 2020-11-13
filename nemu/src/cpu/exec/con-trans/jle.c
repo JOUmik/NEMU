@@ -12,6 +12,4 @@
 #include "jle-template.h"
 #undef DATA_BYTE
 
-/* for instruction encoding overloading */
-
 make_helper_v(jle_i)

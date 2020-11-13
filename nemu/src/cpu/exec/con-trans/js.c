@@ -12,7 +12,4 @@
 #include "js-template.h"
 #undef DATA_BYTE
 
-/* for instruction encoding overloading */
-
 make_helper_v(js_i)
-
