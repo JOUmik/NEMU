@@ -53,7 +53,8 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/matrix-mul
+USERPROG := obj/testcase/print-FLOAT
+# ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
@@ -73,6 +74,3 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
-
-count:
-	bash count.sh ./nemu/	
