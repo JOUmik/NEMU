@@ -70,7 +70,7 @@ void write_cache1(hwaddr_t addr, size_t len, uint32_t data){
     int i,group = group_idx * Cache_L1_Way_Size;
     for (i = group + 0;i < group + Cache_L1_Way_Size;i ++){
         if (cache1[i].valid == 1 && cache1[i].tag == tag){// WRITE HIT
-            /*write through*/
+            /* write through */
             if (offset + len > Cache_L1_Block_Size){
                 dram_write(addr,Cache_L1_Block_Size - offset,data);
                 memcpy(cache1[i].data + offset, &data, Cache_L1_Block_Size - offset);
