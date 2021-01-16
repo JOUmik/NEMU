@@ -5,11 +5,10 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
-bool su = true;
 
 void init_wp_pool() {
 	int i;
-	for(i = 0; i < NR_WP; i ++) {
+	for (i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
 		wp_pool[i].next = &wp_pool[i + 1];
 	}
@@ -21,85 +20,72 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
-WP *new_wp() {
-        if(su == true) {
-                su = false;
-                init_wp_pool();
-                //printf("have initialled\n");
-        }
-        if(free_ == NULL) {
-                printf("The free is empty!");
-                assert(0);
-        }
-        WP *new, *tempt;
-        new = free_;
-        free_ = free_->next;
-        new->next = NULL;
-        tempt = head;
-        if( tempt == NULL) {
-                head = new;
-                tempt = head;
-        }
-        else {
-                while(tempt->next != NULL) {
-                        tempt = tempt->next;
-                        //printf("1\n");
-                }
-                tempt -> next = new;
-        }
-        return new;
+
+WP* new_wp() {
+
+	if (free_ == NULL) return NULL;
+
+	WP *f_top, *h_tail;
+	f_top = free_;
+	h_tail = head;
+	free_ = free_ -> next;
+
+	f_top -> next = NULL;
+
+	if (h_tail == NULL) head = f_top;
+	else {
+		while (h_tail -> next != NULL)
+			h_tail = h_tail -> next;
+		h_tail -> next = f_top;
+	}
+	return f_top;
 }
 
 void free_wp(WP *wp) {
-        WP *free, *tempt;
-        free = free_;
-        if(free ==NULL) {
-                free_ = wp;
-                free = free_;
-        }
-        else {
-                while(free->next != NULL)   free = free->next;
-                free -> next = wp;
-        }  
-        tempt = head;
-        if (head == NULL)  assert(0);
-        else if (head->NO == wp->NO)  {
-                head = head->next;
-                wp->next = NULL;
-                return;
-        }
-        else {
-                while( tempt->next != NULL && tempt->next->NO != wp->NO)  tempt = tempt->next;
-                if(tempt->next->NO == wp->NO) {
-                        tempt->next = tempt->next->next;
-                        wp->next = NULL;
-                        return;
-                }
-                else assert(0);
-        }
+
+	WP *h, *f;
+	h = head;
+	f = free_;
+	if (h == wp) {
+		head = wp -> next;
+	} else {
+		while (h != NULL && h -> next != wp) {
+			h = h -> next;
+		}
+		h -> next = h -> next -> next;
+	}
+	wp -> next = free_;
+	free_ = wp;
+	wp -> val = 0;
+	wp -> exprs[0] = '\0';
 }
 
-/*bool check_wp() {
-        WP *tempt;
-        tempt = head;
-        bool key = true;
-        bool success;
-        while(tempt != NULL) {
-                uint32_t tmp_expr = expr
-        }
-}*/
-
-void delete_wp(int num) {
-        WP *new;
-        new = &wp_pool[num];
-        free_wp(new);
+void print_w() {
+	WP *h = head;
+	while (h != NULL) {
+		printf("[Watchpoint NO.%d]\tExpression: %s\tValue: %d\n", h -> NO, h -> exprs, h -> val);
+		h = h -> next;
+	}
 }
 
-void info_wp() {
-        WP *new;
-        new = head;
-        while(new!=NULL) {
-                printf("Watchpoint %d: %s = %d\n", new->NO, new->expr, new->val);
-                new = new->next;
-        }
+WP* delete_wp(int id, bool* f) {
+	WP* ret = head;
+	while (ret != NULL && ret -> NO != id) {
+		ret = ret -> next;
+	}
+	if (ret == NULL) *f = false;
+	return ret;
+}
+void check_wp(bool* f) {
+	WP* h = head;
+	while (h != NULL) {
+		bool tmp = true;
+		uint32_t nxtv = expr(h->exprs, &tmp);
+		if (nxtv != h -> val) {
+			printf("[Watchpoint NO.%d]\tExpression: %s\tOrigin Value: 0x%x\tNew Value: 0x%x\n", h -> NO, h -> exprs, h -> val, nxtv);
+			h -> val = nxtv;
+			*f = true;
+		}
+		h = h -> next;
+	}
 }
