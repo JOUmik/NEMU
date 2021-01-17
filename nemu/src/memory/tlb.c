@@ -15,6 +15,7 @@ void init_tlb(){
 int read_tlb(uint32_t addr){
     int dir = addr >> 12;
     int i;
+
     for (i = 0; i < TLB_SIZE;i++){
         if (tlb[i].tag == dir && tlb[i].valid == 1){
             return i;
