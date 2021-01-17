@@ -47,7 +47,7 @@ int read_cache1(hwaddr_t address){
         }
     }
 
-    //Random(PA3 test1)
+    //Random(PA3 task1)
     /*
     #ifndef TEST
     test_time += 200;
@@ -63,7 +63,7 @@ int read_cache1(hwaddr_t address){
         public_ddr3_read(block_start + (k * BURST_LEN), cache1[i].data+ (k * BURST_LEN));
     }*/
 
-    //PA3 optional test1
+    //PA3 optional task1
     //Find in Cache2
     //read address from cache2
     int replace = read_cache2(address);
@@ -145,16 +145,24 @@ void write_cache1(hwaddr_t addr, size_t len, uint32_t data){
             if (offset + len > Cache_L1_Block_Size){
                 dram_write(addr,Cache_L1_Block_Size - offset,data);
                 memcpy(cache1[i].data + offset, &data, Cache_L1_Block_Size - offset);
+		//Update Cache2
+		write_cache2(addr,Cache_L1_Block_Size - offset,data);
             
                 write_cache1(addr + Cache_L1_Block_Size - offset,len - (Cache_L1_Block_Size - offset),data >> (Cache_L1_Block_Size - offset));
             }
 	    else {
                 dram_write(addr,len,data);
                 memcpy(cache1[i].data + offset, &data, len);
+		/*Update Cache2*/
+                write_cache2(addr,len,data);
 	    }
 	    return;
 	}
     }
 
-    dram_write(addr,len,data);
+    //PA3 task1
+    //dram_write(addr,len,data);
+    
+    //PA3 optional task1
+    write_cache2(addr,len,data);
 }
