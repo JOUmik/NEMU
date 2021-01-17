@@ -21,7 +21,7 @@ typedef struct{
     /*invisible*/
     uint16_t attribute;//read,write,execute
     uint32_t limit;
-	uint32_t base;
+    uint32_t base;
 }Segment_Reg;
 
 typedef struct {
