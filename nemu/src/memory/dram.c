@@ -36,56 +36,56 @@ uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
 uint8_t *hw_mem = (void *)dram;
 
 typedef struct {
-	uint8_t buf[NR_COL];
-	int32_t row_idx;
-	bool valid;
+    uint8_t buf[NR_COL];
+    int32_t row_idx;
+    bool valid;
 } RB;
 
 RB rowbufs[NR_RANK][NR_BANK];
 
 void init_ddr3() {
-	int i, j;
-	for(i = 0; i < NR_RANK; i ++) {
-		for(j = 0; j < NR_BANK; j ++) {
-			rowbufs[i][j].valid = false;
-		}
+    int i, j;
+    for(i = 0; i < NR_RANK; i ++) {
+	for(j = 0; j < NR_BANK; j ++) {
+	    rowbufs[i][j].valid = false;
 	}
+    }
 }
 
 static void ddr3_read(hwaddr_t addr, void *data) {
-	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
+    Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
-	dram_addr temp;
-	temp.addr = addr & ~BURST_MASK;
-	uint32_t rank = temp.rank;
-	uint32_t bank = temp.bank;
-	uint32_t row = temp.row;
-	uint32_t col = temp.col;
+    dram_addr temp;
+    temp.addr = addr & ~BURST_MASK;
+    uint32_t rank = temp.rank;
+    uint32_t bank = temp.bank;
+    uint32_t row = temp.row;
+    uint32_t col = temp.col;
 
-	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
-		/* read a row into row buffer */
-		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
-		rowbufs[rank][bank].row_idx = row;
-		rowbufs[rank][bank].valid = true;
-	}
+    if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
+	/* read a row into row buffer */
+	memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
+	rowbufs[rank][bank].row_idx = row;
+	rowbufs[rank][bank].valid = true;
+    }
 
-	/* burst read */
-	memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
+    /* burst read */
+    memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
 }
 
 void ddr3_read_replace(hwaddr_t addr, void *data){
-	ddr3_read(addr,data);
+    ddr3_read(addr,data);
 }
 
 static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
-	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
+    Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
-	dram_addr temp;
-	temp.addr = addr & ~BURST_MASK;
-	uint32_t rank = temp.rank;
-	uint32_t bank = temp.bank;
-	uint32_t row = temp.row;
-	uint32_t col = temp.col;
+    dram_addr temp;
+    temp.addr = addr & ~BURST_MASK;
+    uint32_t rank = temp.rank;
+    uint32_t bank = temp.bank;
+    uint32_t row = temp.row;
+    uint32_t col = temp.col;
 
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
