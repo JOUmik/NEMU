@@ -30,7 +30,7 @@ typedef struct{
 Cache_L1 cache1[Cache_L1_Size/Cache_L1_Block_Size];
 
 
-/*
+
 #define Cache_L2_Size 4 * 1024 * 1024
 #define Cache_L2_Block_Size 64
 #define Cache_L2_Way_Bit 4
@@ -45,7 +45,7 @@ typedef struct{
     bool valid;
     bool dirty;
 }Cache_L2;
-*/
+
 //Cache_L2 cache2[Cache_L2_Size/Cache_L2_Block_Size];
 
 #ifdef Test
