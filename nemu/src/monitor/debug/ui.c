@@ -7,10 +7,13 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <elf.h>
+#include "memory.h"
 #define TestCorrect(x) if(x){printf("Invalid Command!\n");return 0;}
 void cpu_exec(uint32_t);
 
 void GetFunctionAddr(swaddr_t EIP,char* name);
+hwaddr_t page_translate(lnaddr_t addr);
+hwaddr_t page_translate_additional(lnaddr_t addr,int* flag);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -31,6 +34,9 @@ char* rl_gets() {
 
 static int cmd_c(char *args) {
 	cpu_exec(-1);
+#ifdef Test
+	printf("test_time:%d\n",test_time);
+#endif
 	return 0;
 }
 
@@ -65,6 +71,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args) {
 	TestCorrect(args == NULL);
+	current_sreg = R_DS;
 	char* tokens = strtok(args, " ");
 	int N, exprs;
 	sscanf(tokens, "%d", &N);
@@ -130,6 +137,7 @@ static int cmd_bt(char* args){
 		printf("Wrong Command!");
 		return 0;
 	}
+	current_sreg = R_SS;
 	PartOfStackFrame EBP;
 	char name[32];
 	int cnt = 0;
@@ -154,7 +162,17 @@ static int cmd_bt(char* args){
 	}
 	return 0;
 }
-
+static int cmd_page(char* args) {
+	TestCorrect(args == NULL);
+	uint32_t addr;
+	sscanf(args, "%x", &addr);
+	int flag = 0;
+	uint32_t real_addr = page_translate_additional(addr,&flag);
+	if (flag == 0) printf("0x%08x\n",real_addr);
+	else if (flag == 1) printf("Dir Cannot Be Used!\n");
+	else printf("Page Cannot Be Used!\n");
+	return 0;
+}
 static struct {
 	char *name;
 	char *description;
@@ -169,7 +187,8 @@ static struct {
 	{ "p", "Calculate expressions", cmd_p},
 	{ "w", "Add watchpoint", cmd_w},
 	{ "d", "Delete watchpoint", cmd_d},
-	{ "bt", "Print stack frame chain", cmd_bt}
+	{ "bt", "Print stack frame chain", cmd_bt},
+	{ "page", "Translate ADDR in PAGE MODE", cmd_page}
 	/* TODO: Add more commands */
 
 };

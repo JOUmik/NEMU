@@ -8,7 +8,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 1000//new 9.1
+#define MAX_INSTR_TO_PRINT 5000//new 9.1
 
 int nemu_state = STOP;
 
@@ -58,7 +58,7 @@ void cpu_exec(volatile uint32_t n) {
 			fputc('.', stderr);
 		}
 #endif
-		//printf("eip: 0x%x\n",cpu.eip);
+		// printf("cs: 0x%x\n",cpu.cs.selector);
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);

@@ -54,14 +54,14 @@ void sreg_load(uint8_t sreg_num){
 	sreg_desc -> part2 = lnaddr_read(chart_addr + 4, 4);
 
 	Assert(sreg_desc -> p == 1, "Segement Not Exist!");//p bit, whether sreg_desc exists
-
-
+	
+	
 	uint32_t bases = 0;
-
+	
 	bases += ((uint32_t)sreg_desc -> base1);
-
+	
 	bases += ((uint32_t)sreg_desc -> base2)<< 16;
-
+	
 	bases += ((uint32_t)sreg_desc -> base3) << 24;
 	cpu.sreg[sreg_num].base = bases;
 	//printf("%p\n",&(cpu.sreg[sreg_num].base));

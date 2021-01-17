@@ -46,8 +46,10 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			
+			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
+			
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
-			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
@@ -68,12 +70,14 @@ uint32_t loader() {
 
 #ifdef IA32_PAGE
 	mm_malloc(KOFFSET - STACK_SIZE, STACK_SIZE);
-
+	
 #ifdef HAS_DEVICE
 	create_video_mapping();
 #endif
-
+	create_video_mapping();
+	
 	write_cr3(get_ucr3());
+	
 #endif
 
 	return entry;
