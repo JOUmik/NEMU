@@ -47,20 +47,31 @@ int read_cache1(hwaddr_t address){
         }
     }
 
-    //Fail to hit cache1,replace with random algorithm
-
+    //Random(PA3 test1)
+    /*
     #ifndef TEST
     test_time += 200;
 #endif
 
     srand((unsigned int)time(NULL));
-    i = (rand() % Cache_L1_Way_Size) + group_position;
+    i = (rand() % Cache_L2_Way_Size) + group_position;
 
-    /*read from memory*/
+    //replace by reading memory
+    //read from memory
     int k;
     for(k = 0; k < (Cache_L1_Block_Size / BURST_LEN); k++){
         public_ddr3_read(block_start + (k * BURST_LEN), cache1[i].data+ (k * BURST_LEN));
-    }
+    }*/
+
+    //PA3 optional test1
+    //Find in Cache2
+    //read address from cache2
+    int replace = read_cache2(address);
+    srand((unsigned int)(time(NULL)));
+    i = group_position + (rand() % Cache_L1_Way_Size);
+
+
+    memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
 
     cache1[i].valid = 1;
     cache1[i].tag = tag_id;
