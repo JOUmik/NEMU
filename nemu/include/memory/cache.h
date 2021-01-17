@@ -55,8 +55,8 @@ int test_time;
 void init_cache();
 int read_cache1(hwaddr_t);
 void write_cache1(hwaddr_t, size_t, uint32_t);
-//void write_cache2(hwaddr_t, size_t, uint32_t);
-//int read_cache2(hwaddr_t);
+void write_cache2(hwaddr_t, size_t, uint32_t);
+int read_cache2(hwaddr_t);
 
 
 #endif 
