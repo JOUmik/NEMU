@@ -14,32 +14,32 @@ extern uint8_t current_sreg;
 /////////////////////////////////////////////////////////
 lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg_id){
     //printf("%x %x %x\n",addr,cpu.sreg[sreg_id].base,sreg_id);
-	if (cpu.cr0.protect_enable == 0) return addr;
-	else {
-		return cpu.sreg[sreg_id].base + addr;
-	}
+    if (cpu.cr0.protect_enable == 0) return addr;
+    else {
+	return cpu.sreg[sreg_id].base + addr;
+    }
 }
 
 
 hwaddr_t page_translate(lnaddr_t addr){
-	if (cpu.cr0.protect_enable == 1 && cpu.cr0.paging == 1){
-		//printf("%x\n",addr);
-		uint32_t dir = addr >> 22;
-		uint32_t page = (addr >> 12) & 0x3ff;
-		uint32_t offset = addr & 0xfff;
-		//read TLB
-		int i = read_tlb(addr);
-		if (i != -1) return (tlb[i].page_num << 12) + offset;
-		// get dir position
-		uint32_t dir_start = cpu.cr3.page_directory_base;
-		uint32_t dir_pos = (dir_start << 12) + (dir << 2);
-		Page_Descriptor first_content;
-		first_content.val = hwaddr_read(dir_pos,4);
-		//printf("dir:%x,con:%x\n",dir_pos,first_content.val);
-		Assert(first_content.p == 1,"Dir Cannot Be Used!");
-		// get page position
-		uint32_t page_start = first_content.addr;
-		uint32_t page_pos = (page_start << 12) + (page << 2);
+    if (cpu.cr0.protect_enable == 1 && cpu.cr0.paging == 1){
+	//printf("%x\n",addr);
+	uint32_t dir = addr >> 22;
+	uint32_t page = (addr >> 12) & 0x3ff;
+	uint32_t offset = addr & 0xfff;
+	//read TLB
+	int i = read_tlb(addr);
+	if (i != -1) return (tlb[i].page_num << 12) + offset;
+	// get dir position
+	uint32_t dir_start = cpu.cr3.page_directory_base;
+	uint32_t dir_pos = (dir_start << 12) + (dir << 2);
+	Page_Descriptor first_content;
+	first_content.val = hwaddr_read(dir_pos,4);
+	//printf("dir:%x,con:%x\n",dir_pos,first_content.val);
+	Assert(first_content.p == 1,"Dir Cannot Be Used!");
+	// get page position
+	uint32_t page_start = first_content.addr;
+	uint32_t page_pos = (page_start << 12) + (page << 2);
 		Page_Descriptor second_content;
 		second_content.val =  hwaddr_read(page_pos,4);
 		Assert(second_content.p == 1,"Page Cannot Be Used!");
