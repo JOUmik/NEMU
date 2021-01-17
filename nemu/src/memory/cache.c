@@ -47,9 +47,9 @@ int read_cache1(hwaddr_t addr){
     for (i = group + 0;i < group + Cache_L1_Way_Size;i ++){
         if (cache1[i].valid == 1 && cache1[i].tag == tag){// READ HIT
 
-#ifdef Test
-            test_time += 2;//HIT in Cache1
-#endif
+            #ifdef Test
+                test_time += 2;//HIT in Cache1
+            #endif
             return i;
         }
     }
@@ -86,16 +86,16 @@ int read_cache2(hwaddr_t addr){
     for (i = group + 0;i < group + Cache_L2_Way_Size;i ++){
         if (cache2[i].valid == 1 && cache2[i].tag == tag){// READ HIT
 
-#ifdef Test
-            test_time += 10;//HIT in Cache2
-#endif
+            #ifdef Test
+                test_time += 10;//HIT in Cache2
+            #endif
             return i;
         }
     }
     // Random (PA3 optional task1)
-#ifdef Test
+    #ifdef Test
         test_time += 200;//NOT HIT in Cache2
-#endif
+    #endif
     srand(time(0));
     i = group + rand() % Cache_L2_Way_Size;
     /*write back*/
