@@ -166,3 +166,27 @@ void write_cache1(hwaddr_t addr, size_t len, uint32_t data){
     //PA3 optional task1
     write_cache2(addr,len,data);
 }
+
+void write_cache2(hwaddr_t addr, size_t len, uint32_t data){
+    uint32_t group_idx = (addr >> Cache_L2_Block_Bit) & (Cache_L2_Group_Size - 1);
+    uint32_t tag = (addr >> (Cache_L2_Group_Bit + Cache_L2_Block_Bit));
+    uint32_t offset = addr & (Cache_L2_Block_Size - 1);
+
+    int i,group = group_idx * Cache_L2_Way_Size;
+    for (i = group + 0;i < group + Cache_L2_Way_Size;i ++){
+        if (cache2[i].valid == 1 && cache2[i].tag == tag){// WRITE HIT
+            cache2[i].dirty = 1;
+            if (offset + len > Cache_L2_Block_Size){
+                memcpy(cache2[i].data + offset, &data, Cache_L2_Block_Size - offset);
+                write_cache2(addr + Cache_L2_Block_Size - offset,len - (Cache_L2_Block_Size - offset),data >> (Cache_L2_Block_Size - offset));
+            }else {
+                memcpy(cache2[i].data + offset, &data, len);
+            }
+            return;
+        }
+    }
+     /*write allocate*/
+    i = read_cache2(addr);
+    cache2[i].dirty = 1;
+    memcpy(cache2[i].data + offset,&data,len);
+}
