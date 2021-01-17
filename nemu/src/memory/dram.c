@@ -15,13 +15,13 @@
 #define RANK_WIDTH (27 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH)
 
 typedef union {
-   	 struct {
-       		 uint32_t col	: COL_WIDTH;
-		uint32_t row	: ROW_WIDTH;
-  		uint32_t bank	: BANK_WIDTH;
-		uint32_t rank	: RANK_WIDTH;
-    	};
-    	uint32_t addr;
+   struct {
+       	uint32_t col	: COL_WIDTH;
+	uint32_t row	: ROW_WIDTH;
+  	uint32_t bank	: BANK_WIDTH;
+	uint32_t rank	: RANK_WIDTH;
+   };
+   uint32_t addr;
 } dram_addr;
 
 
