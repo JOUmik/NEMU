@@ -20,7 +20,7 @@ typedef struct{
     uint16_t selector;// visible
     /*invisible*/
     uint16_t attribute;//read,write,execute
-	uint32_t limit;
+    uint32_t limit;
 	uint32_t base;
 }Segment_Reg;
 
