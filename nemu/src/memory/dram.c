@@ -15,13 +15,13 @@
 #define RANK_WIDTH (27 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH)
 
 typedef union {
-    struct {
-	uint32_t col	: COL_WIDTH;
-	uint32_t row	: ROW_WIDTH;
-	uint32_t bank	: BANK_WIDTH;
-	uint32_t rank	: RANK_WIDTH;
-    };
-    uint32_t addr;
+        struct {
+    	    uint32_t col	: COL_WIDTH;
+	    uint32_t row	: ROW_WIDTH;
+	    uint32_t bank	: BANK_WIDTH;
+	    uint32_t rank	: RANK_WIDTH;
+        };
+        uint32_t addr;
 } dram_addr;
 
 
@@ -36,18 +36,18 @@ uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
 uint8_t *hw_mem = (void *)dram;
 
 typedef struct {
-    uint8_t buf[NR_COL];
-    int32_t row_idx;
-    bool valid;
+        uint8_t buf[NR_COL];
+        int32_t row_idx;
+        bool valid;
 } RB;
 
 RB rowbufs[NR_RANK][NR_BANK];
 
 void init_ddr3() {
-    int i, j;
-    for(i = 0; i < NR_RANK; i ++) {
-	for(j = 0; j < NR_BANK; j ++) {
-	    rowbufs[i][j].valid = false;
+        int i, j;
+        for(i = 0; i < NR_RANK; i ++) {
+	    for(j = 0; j < NR_BANK; j ++) {
+	        rowbufs[i][j].valid = false;
 	}
     }
 }
