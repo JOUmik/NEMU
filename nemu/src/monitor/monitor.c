@@ -98,4 +98,7 @@ void restart() {
 
 	/* Initialize Cache */
 	init_cache();
+
+	/* Initialize CR0. */
+	init_cr0();
 }
