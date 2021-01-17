@@ -27,22 +27,22 @@ typedef struct{
 typedef struct {
     union {
 	union {
-			uint32_t _32;
-			uint16_t _16;
-			uint8_t _8[2];
-		} gpr[8];
-		struct {
-			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-			union{
-				struct{
-					uint32_t CF:	1;
-					uint32_t :		1;
-					uint32_t PF:	1;
-					uint32_t :		1;
-					uint32_t AF:	1;
-					uint32_t :		1;
-					uint32_t ZF:	1;
-					uint32_t SF:	1;
+	    uint32_t _32;
+	    uint16_t _16;
+	    uint8_t _8[2];
+	} gpr[8];
+	    struct {
+	        uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+		    union{
+		        struct{
+			    uint32_t CF:	1;
+			    uint32_t :		1;
+			    uint32_t PF:	1;
+			    uint32_t :		1;
+			    uint32_t AF:	1;
+			    uint32_t :		1;
+			    uint32_t ZF:	1;
+			    uint32_t SF:	1;
 					uint32_t TF:	1;
 					uint32_t IF:	1;
 					uint32_t DF:	1;
