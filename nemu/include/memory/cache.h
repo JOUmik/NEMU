@@ -46,7 +46,7 @@ typedef struct{
     bool dirty;
 }Cache_L2;
 
-//Cache_L2 cache2[Cache_L2_Size/Cache_L2_Block_Size];
+Cache_L2 cache2[Cache_L2_Size/Cache_L2_Block_Size];
 
 #ifdef Test
 int test_time;
