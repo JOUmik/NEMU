@@ -17,7 +17,7 @@ enum { R_ES, R_CS, R_SS, R_DS, R_FS, R_GS};
  */
 
 typedef struct{
-	uint16_t selector;// visible
+    uint16_t selector;// visible
 	/*invisible*/
 	uint16_t attribute;//read,write,execute
 	uint32_t limit;
