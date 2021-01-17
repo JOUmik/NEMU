@@ -75,6 +75,11 @@ static void load_entry() {
 	fclose(fp);
 }
 
+static void init_cr0(){
+	cpu.cr0.protect_enable = 0;//real mode
+	cpu.cr0.paging = 0;// paging mode
+}
+
 static void init_eflags(){
 	cpu.EFLAGS = 0x00000002;
 }
