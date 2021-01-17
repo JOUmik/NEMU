@@ -17,6 +17,12 @@ void init_cache(){
 	cache1[i].valid = 0;
     }
 
+    //initialize cache L2
+    for (i = 0;i < Cache_L2_Size / Cache_L2_Block_Size;i++){
+        cache2[i].valid = 0;
+        cache2[i].dirty = 0;
+    }
+
     test_time = 0;
 }
 
