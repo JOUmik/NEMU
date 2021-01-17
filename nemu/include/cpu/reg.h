@@ -25,7 +25,7 @@ typedef struct{
 }Segment_Reg;
 
 typedef struct {
-	union {
+    union {
 		union {
 			uint32_t _32;
 			uint16_t _16;
